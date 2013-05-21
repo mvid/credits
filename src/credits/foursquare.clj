@@ -58,7 +58,7 @@
         (let [film (stinger/film-from-title name)
               token (token-from-id user-id)]
           (do
-            (debug (str "name: " name))
+            (info (str "name: " name))
             (if (nil? film)
               (reply-on-checkin {:id checkin-id
                                  :name name
