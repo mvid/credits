@@ -66,12 +66,13 @@
                           :url (film :url)
                           :categories (map :id (:categories film))}]
             (do
-              (memcache/set
-                tmc
-                (codec/url-encode title)
-                month-in-seconds
-                (json/generate-string response))
-              response))
+              (if tmc
+                (memcache/set
+                  tmc
+                  (codec/url-encode title)
+                  month-in-seconds
+                  (json/generate-string response))
+                response))
           nil)))))
 
 ;(defn film-from-title [^String title]
