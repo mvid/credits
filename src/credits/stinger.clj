@@ -71,7 +71,7 @@
                   tmc
                   (codec/url-encode title)
                   month-in-seconds
-                  (json/generate-string response))
+                  (json/generate-string response)))
                 response))
           nil)))))
 
