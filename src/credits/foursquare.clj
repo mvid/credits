@@ -55,27 +55,26 @@
         name (:name event)]
     (if (and event (event-is-movie? event))
       (do
+        (info (str "name: " name))
         (let [film (stinger/film-from-title name)
               token (token-from-id user-id)]
-          (do
-            (info (str "name: " name))
-            (if (nil? film)
+          (if (nil? film)
+            (reply-on-checkin {:id checkin-id
+                               :name name
+                               :text "Sorry, we don't have info on this movie. Submit a report?"
+                               :url "http://aftercredits.com/contact/"
+                               :token token})
+            (if (stinger/stinger? film)
               (reply-on-checkin {:id checkin-id
                                  :name name
-                                 :text "Sorry, we don't have info on this movie. Submit a report?"
-                                 :url "http://aftercredits.com/contact/"
+                                 :text "Stick around, this movie should have something after the credits"
+                                 :url (film :url )
                                  :token token})
-              (if (stinger/stinger? film)
-                (reply-on-checkin {:id checkin-id
-                                   :name name
-                                   :text "Stick around, this movie should have something after the credits"
-                                   :url (film :url )
-                                   :token token})
-                (reply-on-checkin {:id checkin-id
-                                   :name name
-                                   :text "Doesn't look like there is anything after this movie"
-                                   :url (film :url )
-                                   :token token})))))
+              (reply-on-checkin {:id checkin-id
+                                 :name name
+                                 :text "Doesn't look like there is anything after this movie"
+                                 :url (film :url )
+                                 :token token}))))
         (str "OK"))
       (str "NOK"))))
 
