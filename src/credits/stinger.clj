@@ -20,12 +20,14 @@
     (System/getenv "MEMCACHIER_USERNAME")
     (System/getenv "MEMCACHIER_PASSWORD")))
 
-(def tmc
-  (memcache/text-connection
-    (or (System/getenv "MEMCACHIER_SERVERS") "")
-    (memcache/text-connection-factory
-      :failure-mode :redistribute
-      :auth-descriptor auth-descriptor)))
+;(def tmc
+;  (memcache/text-connection
+;    (or (System/getenv "MEMCACHIER_SERVERS") "")
+;    (memcache/text-connection-factory
+;      :failure-mode :redistribute
+;      :auth-descriptor auth-descriptor)))
+
+(def tmc nil)
 
 (defn address [^String title]
   (str "http://aftercredits.com/?json=1&s=" (codec/url-encode
