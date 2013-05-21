@@ -29,7 +29,7 @@
   (let [categories (:categories event)]
     (>
       (count (filter
-               (fn [c] (= "Movies" (:name c)))
+               (fn [c] (= "Movie" (:name c)))
                categories))
       0)))
 
@@ -52,7 +52,8 @@
         checkin-id (get checkin "id")
         user-id (get (get checkin "user") "id")
         event (event-from-checkin checkin (token-from-id user-id))
-        name (:name event)]
+        name (:name event)
+        drop ()]
     (if (and event (event-is-movie? event))
       (do
         (info (str "id: " user-id " name: " name))
