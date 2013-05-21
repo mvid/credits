@@ -11,4 +11,5 @@
                  [org.clojars.tavisrudd/redis-clojure "1.3.1"]
                  [clojurewerkz/spyglass "1.1.0-beta3"]]
   :main credits.core
-  :offline? true)
+  :offline? true
+  :min-lein-version "2.0.0")
