@@ -10,4 +10,5 @@
                  [compojure "1.0.1"]
                  [org.clojars.tavisrudd/redis-clojure "1.3.1"]
                  [clojurewerkz/spyglass "1.1.0-beta3"]]
-  :main credits.core)
+  :main credits.core
+  :offline? true)
