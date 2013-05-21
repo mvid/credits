@@ -12,7 +12,20 @@
    :coming-soon 1633
    :during-and-after-credits 16
    :confirmed 12})
+
 (def month-in-seconds 2592000)
+
+(def auth-descriptor
+  (AuthDescriptor/typical
+    (System/getenv "MEMCACHIER_USERNAME")
+    (System/getenv "MEMCACHIER_PASSWORD")))
+
+(def tmc
+  (memcache/text-connection
+    (or (System/getenv "MEMCACHIER_SERVERS") "")
+    (memcache/text-connection-factory
+      :failure-mode :redistribute
+      :auth-descriptor auth-descriptor)))
 
 (defn address [^String title]
   (str "http://aftercredits.com/?json=1&s=" (codec/url-encode
@@ -30,14 +43,7 @@
       results)))
 
 (defn film-from-title [^String title]
-  (let [auth-descriptor (AuthDescriptor/typical (System/getenv "MEMCACHIER_USERNAME")
-                                                (System/getenv "MEMCACHIER_PASSWORD"))
-        tmc (memcache/text-connection
-              (or (System/getenv "MEMCACHIER_SERVERS") "")
-              (memcache/text-connection-factory
-                :failure-mode :redistribute
-                :auth-descriptor auth-descriptor))
-        cached-film (if tmc (try
+  (let [cached-film (if tmc (try
                               (memcache/get tmc (codec/url-encode title))
                               (catch Exception e
                                 (do
