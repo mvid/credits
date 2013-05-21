@@ -3,7 +3,8 @@
             [ring.util.codec :as codec]
             [clojurewerkz.spyglass.client :as memcache]
             [clj-json.core :as json])
-  (:use [clojure.tools.logging :only (debug info error)]))
+  (:use [clojure.tools.logging :only (debug info error)])
+  (:import [net.spy.memcached.auth AuthDescriptor]))
 
 (def category-ids
   {:stinger 7
@@ -29,7 +30,13 @@
       results)))
 
 (defn film-from-title [^String title]
-  (let [tmc (memcache/text-connection (or (System/getenv "MEMCACHIER_SERVERS") ""))
+  (let [auth-descriptor (AuthDescriptor/typical (System/getenv "MEMCACHIER_USERNAME")
+                                                (System/getenv "MEMCACHIER_PASSWORD"))
+        tmc (memcache/text-connection
+              (or (System/getenv "MEMCACHIER_SERVERS") "")
+              (memcache/text-connection-factory
+                :failure-mode :redistribute
+                :auth-descriptor auth-descriptor))
         cached-film (if tmc (try
                               (memcache/get tmc (codec/url-encode title))
                               (catch Exception e
