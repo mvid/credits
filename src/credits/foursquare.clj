@@ -55,7 +55,7 @@
         name (:name event)]
     (if (and event (event-is-movie? event))
       (do
-        (info (str "name: " name))
+        (info (str "id: " user-id " name: " name))
         (let [film (stinger/film-from-title name)
               token (token-from-id user-id)]
           (if (nil? film)
