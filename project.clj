@@ -9,5 +9,5 @@
                  [ring/ring-jetty-adapter "1.1.2"]
                  [compojure "1.0.1"]
                  [org.clojars.tavisrudd/redis-clojure "1.3.1"]
-                 [clojurewerkz/spyglass "1.0.2"]]
+                 [clojurewerkz/spyglass "1.1.0-beta3"]]
   :main credits.core)
